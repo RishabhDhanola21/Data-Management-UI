@@ -1,18 +1,36 @@
 import { useMemo, useState, useEffect, useRef, useCallback } from "react";
-import { useTable, useBlockLayout, CellProps } from "react-table";
+import {
+  useTable,
+  useBlockLayout,
+  type Column,
+  type CellProps,
+} from "react-table";
 import { tasks as initialTasks } from "./data/task";
 import "./index.css";
+
+type Task = {
+  job: string;
+  submitted: string;
+  status: string;
+  submitter: string;
+  url: string;
+  assigned: string;
+  priority: string;
+  dueDate: string;
+  value: string;
+  [key: string]: string;
+};
 
 type TableRow = Record<string, string>;
 
 const statusStyles: Record<string, string> = {
   "In-process": "bg-yellow-200 text-yellow-800",
   "Need to start": "bg-blue-200 text-blue-800",
-  "Complete": "bg-green-200 text-green-800",
+  Complete: "bg-green-200 text-green-800",
   Blocked: "bg-red-200 text-red-800",
 };
 
-const DEFAULT_ROW: TableRow = {
+const DEFAULT_ROW: Task = {
   job: "",
   submitted: "",
   status: "",
@@ -27,7 +45,7 @@ const DEFAULT_ROW: TableRow = {
 function App() {
   const [activeStatus, setActiveStatus] = useState("All Orders");
   const [rowsToShow, setRowsToShow] = useState(20);
-  const [tableData, setTableData] = useState<TableRow[]>(initialTasks);
+  const [tableData, setTableData] = useState<Task[]>(initialTasks);
   const [customCols, setCustomCols] = useState<string[]>([]);
   const tableContainerRef = useRef<HTMLDivElement | null>(null);
 
@@ -37,7 +55,7 @@ function App() {
       : tableData.filter((task) => task.status === activeStatus);
   }, [activeStatus, tableData]);
 
-  const extendedData = useMemo(() => {
+  const extendedData: Task[] = useMemo(() => {
     const filled = [...filteredData];
     while (filled.length < rowsToShow) {
       filled.push({ ...DEFAULT_ROW });
@@ -45,16 +63,19 @@ function App() {
     return filled;
   }, [rowsToShow, filteredData]);
 
-  const handleCellChange = useCallback((rowIndex: number, columnId: string, value: string) => {
-    setTableData((prevData) => {
-      const updated = [...prevData];
-      if (!updated[rowIndex]) updated[rowIndex] = { ...DEFAULT_ROW };
-      updated[rowIndex] = { ...updated[rowIndex], [columnId]: value };
-      return updated;
-    });
-  }, []);
+  const handleCellChange = useCallback(
+    (rowIndex: number, columnId: string, value: string) => {
+      setTableData((prevData) => {
+        const updated = [...prevData];
+        if (!updated[rowIndex]) updated[rowIndex] = { ...DEFAULT_ROW };
+        updated[rowIndex] = { ...updated[rowIndex], [columnId]: value };
+        return updated;
+      });
+    },
+    []
+  );
 
-  const columns = useMemo(() => {
+  const columns: Column<TableRow>[] = useMemo(() => {
     const baseKeys = [
       "job",
       "submitted",
@@ -70,7 +91,9 @@ function App() {
     const allKeys = [...baseKeys, ...customCols];
 
     const dynamicColumns = allKeys.map((key) => {
-      const maxLength = Math.max(...extendedData.map((row) => (row[key] || "").toString().length));
+      const maxLength = Math.max(
+        ...extendedData.map((row) => (row[key] || "").toString().length)
+      );
       const estimatedWidth = Math.max(100, maxLength * 8 + 40);
 
       return {
@@ -84,7 +107,9 @@ function App() {
                 : "bg-gray-200"
             }`}
           >
-            {key === "value" ? "Est. Value" : key[0].toUpperCase() + key.slice(1)}
+            {key === "value"
+              ? "Est. Value"
+              : key[0].toUpperCase() + key.slice(1)}
           </div>
         ),
         accessor: key,
@@ -174,18 +199,22 @@ function App() {
     ];
   }, [extendedData, handleCellChange, customCols]);
 
-  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable(
-    {
-      columns,
-      data: extendedData,
-    },
-    useBlockLayout
-  );
+  const {
+    getTableProps,
+    getTableBodyProps,
+    headerGroups,
+    rows,
+    prepareRow,
+  } = useTable<TableRow>({
+    columns,
+    data: extendedData,
+  }, useBlockLayout);
 
   useEffect(() => {
     const handleScroll = () => {
       if (!tableContainerRef.current) return;
-      const { scrollTop, scrollHeight, clientHeight } = tableContainerRef.current;
+      const { scrollTop, scrollHeight, clientHeight } =
+        tableContainerRef.current;
       if (scrollTop + clientHeight >= scrollHeight - 10) {
         setRowsToShow((prev) => prev + 10);
       }
@@ -196,7 +225,13 @@ function App() {
     return () => container?.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const footerTabs = ["All Orders", "In-process", "Need to start", "Complete", "Blocked"];
+  const footerTabs = [
+    "All Orders",
+    "In-process",
+    "Need to start",
+    "Complete",
+    "Blocked",
+  ];
 
   return (
     <div className="p-6 flex flex-col h-screen">
@@ -253,7 +288,6 @@ function App() {
         </table>
       </div>
 
-      {/* Footer Tabs */}
       <div className="mt-4 flex justify-start gap-2 border-t pt-4">
         {footerTabs.map((status) => (
           <button

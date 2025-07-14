@@ -1,5 +1,5 @@
 export type Task = {
-  id: number;
+  id: string;
   job: string;
   submitted: string;
   status: string;
@@ -13,7 +13,7 @@ export type Task = {
 
 export const tasks: Task[] = [
   {
-    id: 1,
+    id: "1",
     job: "Launch social media campaign for product X",
     submitted: "15-11-2024",
     status: "In-process",
@@ -25,7 +25,7 @@ export const tasks: Task[] = [
     url:"www.aishapatel.com",
   },
   {
-    id: 2,
+    id: "2",
     job: "Update press kit for company redesign",
     submitted: "28-10-2024",
     status: "Need to start",
@@ -37,7 +37,7 @@ export const tasks: Task[] = [
    url :"www.irfankhanp...",
   },
   {
-    id: 3,
+    id: "3",
     job: "Finalize user testing feedback for app",
     submitted: "05-12-2024",
     status: "In-process",
@@ -49,7 +49,7 @@ export const tasks: Task[] = [
     url :"www.markjohns...",
   },
   {
-    id: 4,
+    id: "4",
     job: "Design new features for the website",
     submitted: "10-01-2025",
     status: "Complete",
@@ -61,7 +61,7 @@ export const tasks: Task[] = [
    url :"www.emilygreen...",
   },
   {
-    id: 5,
+    id: "5",
     job: "Prepare financial report for Q4",
     submitted: "25-01-2025",
     status: "Blocked",
