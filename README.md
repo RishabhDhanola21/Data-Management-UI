@@ -1,36 +1,32 @@
-Data Management Table App
-Welcome to your very own spreadsheet-like data editor — built with modern web tools like React, TypeScript, TailwindCSS, and react-table. Whether you're managing tasks, tracking submissions, or just playing with tabular data, this app makes it smooth, editable, and easy to use.
+# Data Management Table App
 
-What You Can Do
-Edit on the Fly
-Just click any cell, type what you need, and move on. Edits happen inline and feel instant.
+Welcome to your very own spreadsheet-like data editor — built with modern web tools like React, TypeScript, TailwindCSS, and react-table. Whether you're managing tasks, tracking submissions, or just working with tabular data, this app makes it smooth, editable, and easy to use.
 
-Add Custom Columns
-Need to track something new? You can add columns dynamically with a simple click.
+## Features
 
-More Rows? Keep Scrolling
-This app supports infinite scroll — as you scroll down, more rows appear automatically.
+### Edit on the Fly
+Click any cell, make your changes, and move on. All edits happen inline with immediate visual feedback.
 
-Filter by Status
-Use the footer tabs to filter and focus on orders like "In-process", "Complete", or "Blocked".
+### Add Custom Columns
+Need to track something new? Dynamically add custom columns with a single click.
 
-Clean and Responsive Design
-Tailwind CSS ensures everything looks clean and adjusts well across devices.
+### Infinite Scroll
+As you scroll, more rows are automatically loaded to ensure a seamless experience.
 
-TypeScript All the Way
-Fully type-safe with strict mode enabled, so you get fewer bugs and better IDE support.
+### Status Filtering
+Quickly filter data using footer tabs such as "In-process", "Complete", or "Blocked".
 
-Under the Hood
-This project is built using:
+### Responsive Design
+Built with Tailwind CSS for clean, mobile-friendly, and responsive layout.
 
-React 18
+### Fully Typed with TypeScript
+Type safety throughout the app with strict mode enabled for better reliability and developer experience.
 
-TypeScript (strict mode)
+## Tech Stack
 
-Vite (for fast builds and development)
-
-Tailwind CSS (for utility-first styling)
-
-react-table (for flexible table logic)
-
-ESLint + Prettier (to keep the code clean and consistent)
+- **React 18**
+- **TypeScript (strict mode)**
+- **Vite** (for fast development and builds)
+- **Tailwind CSS** (utility-first styling)
+- **react-table** (for advanced table features)
+- **ESLint + Prettier** (for code consistency)
